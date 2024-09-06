@@ -1,0 +1,66 @@
+@property --h {
+    syntax: "<length>";
+    initial-value: 0px;
+    inherits: true;
+  }
+  
+  img {
+    --s: 150px; /* image size */
+    --b: 12px;  /* the border */
+    --d: 30px;  /* the 3D depth */
+    --c: #ff00ee;
+    --_c: color-mix(in srgb,var(--c),#fff 25%);
+    
+    --_w: calc(var(--s) + 2*var(--b));
+    width: calc(var(--_w) + var(--d));
+    aspect-ratio: 1;
+    padding-top: min(var(--h) - var(--b),var(--s));
+    border: solid #0000;
+    border-width: var(--b) calc(var(--b) + var(--d)) calc(var(--b) + var(--d)) var(--b);
+    box-sizing: border-box;
+    object-fit: cover;
+    object-position: bottom;
+    background: 
+      linear-gradient(var(--_c) 0 0) no-repeat
+       0 0/calc(100% - var(--d)) calc(100% - var(--d) + var(--h) - var(--_w)),
+      conic-gradient(at right var(--d) bottom var(--d),
+       #0004 37.5%,#0008 0 75%,#0000 0) var(--c);
+    background-origin: border-box;
+    clip-path: polygon(0 calc(var(--h) - var(--_w)),calc(100% - var(--d)) calc(var(--h) - var(--_w)),calc(100% - var(--d)) 0,100% var(--d),100% 100%,var(--d) 100%,0 calc(100% - var(--d)));
+    box-shadow: 0 0 0 999px var(--_c);
+    --h: var(--_w);
+    transition: --h .6s linear;
+    cursor: pointer;
+  }
+  .alt {
+    --c: #ffffff;
+    border-width: var(--b) var(--b) calc(var(--b) + var(--d)) calc(var(--b) + var(--d));
+    background: 
+      linear-gradient(var(--_c) 0 0) no-repeat
+       100% 0/calc(100% - var(--d)) calc(100% - var(--d) + var(--h) - var(--_w)),
+      conic-gradient(at left var(--d) bottom var(--d),
+       #0000 25%,#0008 0 62.5%,#0004 0) var(--c);
+    background-origin: border-box;
+    clip-path: polygon(100% calc(var(--h) - var(--_w)),var(--d) calc(var(--h) - var(--_w)),var(--d) 0,0 var(--d),0 100%,calc(100% - var(--d)) 100%,100% calc(100% - var(--d)));
+  }
+  
+  img:hover {
+    --h: 0px;
+  }
+  
+  /* for firefox you will have a small missalignement */
+  @supports (-moz-appearance: none) {
+    img {
+      transition: .6s linear;
+    }
+  }
+  
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-content: center;
+    grid-auto-flow: column;
+    gap: 80px;
+    background: #000000;
+  }
